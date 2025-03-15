@@ -5,11 +5,10 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   type SidebarProps,
 } from '@/components/ui/sidebar'
-import { Command, LifeBuoy, NewspaperIcon, Send } from 'lucide-vue-next'
+import { LifeBuoy, NewspaperIcon, Send } from 'lucide-vue-next'
 import NavMain from './NavMain.vue'
 import NavSecondary from './NavSecondary.vue'
 import NavUser from './NavUser.vue'
