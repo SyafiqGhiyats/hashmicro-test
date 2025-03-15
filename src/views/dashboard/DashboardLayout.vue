@@ -28,7 +28,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem class="hidden md:block">
-                <BreadcrumbLink href="#"> Dashboard </BreadcrumbLink>
+                <BreadcrumbLink href="/"> Dashboard </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator class="hidden md:block" />
               <BreadcrumbItem>

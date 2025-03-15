@@ -64,7 +64,7 @@ const blogData = ref({
         'Software Bill of Materials (SBoM) adalah daftar terperinci yang mencatat semua komponen perangkat lunak yang digunakan dalam suatu aplikasi atau sistem.',
       content:
         'Software Bill of Materials (SBoM) adalah daftar terperinci yang mencatat semua komponen perangkat lunak yang digunakan dalam suatu aplikasi atau sistem.',
-      tags: ['Manufacturing', 'Software', 'Bill of Materials'],
+      tags: ['Manufacturing', 'Software', 'Bill of Materials', 'SBoM', 'Technology'],
       createdAt: '2025-02-28T14:15:00Z',
       count: {
         comments: 18,
@@ -85,7 +85,7 @@ const blogData = ref({
         'Apakah Anda sering kali bingung mengenai faktur pajak dan jenis-jenisnya? Faktur pajak lebih dari sekedar dokumen; ia berfungsi sebagai bukti legal dalam setiap transaksi yang dikenakan Pajak Pertambahan Nilai (PPN).',
       content:
         'Apakah Anda sering kali bingung mengenai faktur pajak dan jenis-jenisnya? Faktur pajak lebih dari sekedar dokumen; ia berfungsi sebagai bukti legal dalam setiap transaksi yang dikenakan Pajak Pertambahan Nilai (PPN).',
-      tags: ['Accounting', 'Tax', 'Invoice'],
+      tags: ['Accounting', 'Tax', 'Invoice', 'Document'],
       createdAt: '2025-03-05T11:20:00Z',
       count: {
         comments: 0,
@@ -197,7 +197,7 @@ const handleStatusChange = () => {
     <!-- Search and filter UI -->
     <h1 class="font-bold text-3xl mb-4">Blog list</h1>
     <div class="mb-6">
-      <div class="flex items-center gap-4 mb-4">
+      <div class="flex items-center flex-col sm:!flex-row gap-4 mb-4">
         <Input
           v-model="searchQuery"
           placeholder="Search blogs..."
@@ -207,26 +207,30 @@ const handleStatusChange = () => {
             <Search class="h-5 w-5 text-muted-foreground ml-3" />
           </template>
         </Input>
-
-        <div class="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger :asChild="true">
-              <Button variant="outline" class="min-w-[120px]">
-                {{ statusFilter || 'All Status' }}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                v-for="status in statusOptions"
-                :key="status"
-                @click="statusFilter = status"
-              >
-                {{ status }}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button variant="outline" size="icon" @click="resetFilters" title="Clear filters">
-            <X class="h-4 w-4" />
+        <div class="flex justify-between sm:items-center gap-4 w-full">
+          <div class="flex gap-2 sm:mt-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger :asChild="true">
+                <Button variant="outline" class="min-w-[120px]">
+                  {{ statusFilter || 'All Status' }}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  v-for="status in statusOptions"
+                  :key="status"
+                  @click="statusFilter = status"
+                >
+                  {{ status }}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button variant="outline" size="icon" @click="resetFilters" title="Clear filters">
+              <X class="h-4 w-4" />
+            </Button>
+          </div>
+          <Button>
+            <router-link to="/blog/create"> Create Blog </router-link>
           </Button>
         </div>
       </div>

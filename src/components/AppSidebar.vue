@@ -36,7 +36,7 @@ const data = {
           url: '/blog',
         },
         {
-          title: 'Buat Blog',
+          title: 'Create Blog',
           url: '/blog/create',
         },
       ],
