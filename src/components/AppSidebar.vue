@@ -62,20 +62,12 @@ const data = {
   <Sidebar v-bind="props">
     <SidebarHeader>
       <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size="lg" as-child>
-            <a href="#">
-              <div
-                class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
-              >
-                <Command class="size-4" />
-              </div>
-              <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">Acme Inc</span>
-                <span class="truncate text-xs">Enterprise</span>
-              </div>
-            </a>
-          </SidebarMenuButton>
+        <SidebarMenuItem class="bg-white rounded-lg px-2">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/0/07/Hashmicro_logo.png"
+            alt="HashMicro"
+            class="object-contain"
+          />
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarHeader>
