@@ -11,7 +11,7 @@
           focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
            disabled:cursor-not-allowed disabled:opacity-50
            dark:shadow-[0px_0px_1px_1px_var(--accent)]
-           group-hover/input:shadow-none transition duration-400`,
+           group-hover/input:shadow-none shadow-md transition duration-400`,
           props.class,
         )
       "
@@ -45,12 +45,3 @@ const modelValue = useVModel(props, 'modelValue', emits, {
   defaultValue: props.defaultValue,
 })
 </script>
-
-<style scoped>
-input {
-  box-shadow:
-    0px 2px 3px -1px rgba(0, 0, 0, 0.1),
-    0px 1px 0px 0px rgba(25, 28, 33, 0.02),
-    0px 0px 0px 1px rgba(25, 28, 33, 0.08);
-}
-</style>
