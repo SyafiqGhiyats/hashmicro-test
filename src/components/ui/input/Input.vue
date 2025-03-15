@@ -1,15 +1,6 @@
 <!-- Uses base code from shadcn-vue Input component and extends it's functionality-->
 <template>
-  <div
-    ref="inputContainerRef"
-    :class="cn('group/input rounded-lg p-[2px] transition duration-300', props.containerClass)"
-    :style="{
-      background: containerBg,
-    }"
-    @mouseenter="() => (visible = true)"
-    @mouseleave="() => (visible = false)"
-    @mousemove="handleMouseMove"
-  >
+  <border-hover :class="containerClass">
     <input
       v-bind="$attrs"
       v-model="modelValue"
@@ -25,14 +16,14 @@
         )
       "
     />
-  </div>
+  </border-hover>
 </template>
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
 import { useVModel } from '@vueuse/core'
-import { ref, computed } from 'vue'
+import { BorderHover } from '../border-hover'
 
 defineOptions({
   inheritAttrs: false,
@@ -53,28 +44,6 @@ const modelValue = useVModel(props, 'modelValue', emits, {
   passive: true,
   defaultValue: props.defaultValue,
 })
-
-const inputContainerRef = ref<HTMLDivElement | null>(null)
-const mouse = ref<{ x: number; y: number }>({ x: 0, y: 0 })
-const radius = 100
-const visible = ref(false)
-
-const containerBg = computed(() => {
-  return `
-        radial-gradient(
-          ${visible.value ? radius + 'px' : '0px'} circle at ${mouse.value.x}px ${mouse.value.y}px,
-          hsl(var(--destructive)),
-          transparent 80%
-        )
-      `
-})
-
-function handleMouseMove({ clientX, clientY }: MouseEvent) {
-  if (!inputContainerRef.value) return
-
-  const { left, top } = inputContainerRef.value.getBoundingClientRect()
-  mouse.value = { x: clientX - left, y: clientY - top }
-}
 </script>
 
 <style scoped>
