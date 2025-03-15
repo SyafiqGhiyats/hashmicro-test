@@ -21,10 +21,20 @@ export default defineConfigWithVueTs(
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
-  
+
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
   },
   skipFormatting,
+  {
+    rules: {
+      'vue/multi-word-component-names': [
+        'error',
+        {
+          ignores: ['Input', 'Card', 'Button', 'Label', 'Popover'],
+        },
+      ],
+    },
+  },
 )
