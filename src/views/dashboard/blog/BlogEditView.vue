@@ -40,11 +40,10 @@ const editorContent = ref()
 const loading = ref(true)
 const isDeleteDialogOpen = ref(false)
 
-// Mock data fetch
 onMounted(async () => {
-  // Simulate API call delay
   setTimeout(() => {
-    // Populate form with post data
+    console.log(slug)
+
     title.value = 'Apa itu HRIS Cloud dalam Manajemen SDM Perusahaan?'
     tags.value = ['HR', 'Cloud', 'HRIS']
     bannerImagePreview.value =

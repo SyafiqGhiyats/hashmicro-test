@@ -21,13 +21,9 @@ const post = ref<Blog | null>(null)
 const loading = ref(true)
 const editorRef = useTemplateRef<{ editor: EditorClass }>('editorRef')
 
-// Mock data fetch - would be replaced with actual API call
 onMounted(async () => {
-  // Simulate API call delay
-
   setTimeout(() => {
     editorRef.value?.editor.setEditable(false)
-    // Find post by slug from mock data
     post.value = {
       id: '5',
       slug: 'hris-cloud',

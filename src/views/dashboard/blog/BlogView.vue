@@ -137,21 +137,17 @@ const blogData = ref({
   ],
 })
 
-// Filter and search state
 const searchQuery = ref('')
 const statusFilter = ref('')
 const statusOptions = ['All', 'PUBLISHED', 'DRAFT', 'ARCHIVED']
 
-// Computed filtered posts
 const filteredPosts = computed(() => {
   let posts = blogData.value.posts
 
-  // Filter by status if selected
   if (statusFilter.value && statusFilter.value !== 'All') {
     posts = posts.filter((post) => post.status === statusFilter.value)
   }
 
-  // Filter by search query if present
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim()
     posts = posts.filter(
@@ -182,9 +178,7 @@ const openAlert = (postId: string, status: string) => {
   selectedPost.value = { postId, status }
 }
 
-// Methods
 const handleStatusChange = () => {
-  // Implementation of status change logic
   const post = blogData.value.posts.find((p) => p.id === selectedPost.value.postId)
   if (post && selectedPost.value.status !== 'DELETED') {
     post.status = selectedPost.value.status
