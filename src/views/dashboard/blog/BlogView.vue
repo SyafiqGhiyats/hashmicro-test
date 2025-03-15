@@ -183,7 +183,7 @@ const handleStatusChange = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem :asChild="true">
-                <Link :to="`/blog/view/${post.slug}`">
+                <Link :to="`/blog/detail/${post.slug}`">
                   <Eye class="mr-2 h-4 w-4" />
                   View
                 </Link>
