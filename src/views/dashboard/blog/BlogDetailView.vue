@@ -4,6 +4,7 @@ export const description = 'Blog post details'
 
 <script setup lang="ts">
 import { Editor as EditorClass } from '@tiptap/core'
+import { Editor } from 'novel-vue'
 import { ref, onMounted, useTemplateRef } from 'vue'
 import { format } from 'date-fns'
 import { useRoute, useRouter } from 'vue-router'

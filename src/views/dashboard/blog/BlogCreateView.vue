@@ -45,7 +45,7 @@ function clearBannerImage() {
 </script>
 
 <template>
-  <div>
+  <div class="max-w-4xl mx-auto">
     <div class="flex items-center justify-between gap-2">
       <h1 class="font-bold text-2xl my-4">Create Blog</h1>
       <Button class="w-[200px]" @click="saveBlog"> Save </Button>
@@ -72,7 +72,11 @@ function clearBannerImage() {
       <div>
         <div v-if="bannerImagePreview" class="mb-4">
           <div class="relative rounded-lg overflow-hidden">
-            <img :src="bannerImagePreview" alt="Banner Preview" class="w-full h-64 object-cover" />
+            <img
+              :src="bannerImagePreview"
+              alt="Banner Preview"
+              class="w-full h-auto object-cover"
+            />
             <div class="absolute top-2 right-2 flex gap-2">
               <Button variant="destructive" size="icon" @click="clearBannerImage">
                 <Trash2Icon />

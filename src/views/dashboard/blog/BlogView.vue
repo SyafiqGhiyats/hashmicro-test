@@ -2,7 +2,7 @@
 export const description = 'List blog page'
 </script>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { format } from 'date-fns'
 import { RouterLink as Link } from 'vue-router'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { EllipsisVertical, Eye, Pencil, Trash2 } from 'lucide-vue-next'
+import { EllipsisVertical, Eye, Pencil, Trash2, Search, X } from 'lucide-vue-next'
 import {
   AlertDialog,
   AlertDialogContent,
@@ -24,6 +24,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { Input } from '@/components/ui/input'
 import { toast } from 'vue-sonner'
 
 const blogData = ref({
@@ -136,6 +137,40 @@ const blogData = ref({
   ],
 })
 
+// Filter and search state
+const searchQuery = ref('')
+const statusFilter = ref('')
+const statusOptions = ['All', 'PUBLISHED', 'DRAFT', 'ARCHIVED']
+
+// Computed filtered posts
+const filteredPosts = computed(() => {
+  let posts = blogData.value.posts
+
+  // Filter by status if selected
+  if (statusFilter.value && statusFilter.value !== 'All') {
+    posts = posts.filter((post) => post.status === statusFilter.value)
+  }
+
+  // Filter by search query if present
+  if (searchQuery.value.trim()) {
+    const query = searchQuery.value.toLowerCase().trim()
+    posts = posts.filter(
+      (post) =>
+        post.title.toLowerCase().includes(query) ||
+        post.description.toLowerCase().includes(query) ||
+        post.content.toLowerCase().includes(query) ||
+        post.tags.some((tag) => tag.toLowerCase().includes(query)),
+    )
+  }
+
+  return posts
+})
+
+const resetFilters = () => {
+  searchQuery.value = ''
+  statusFilter.value = ''
+}
+
 const isOpenAlert = ref(false)
 const selectedPost = ref({
   postId: '',
@@ -165,9 +200,77 @@ const handleStatusChange = () => {
 
 <template>
   <div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <!-- Search and filter UI -->
+    <h1 class="font-bold text-3xl mb-4">Blog list</h1>
+    <div class="mb-6">
+      <div class="flex items-center gap-4 mb-4">
+        <Input
+          v-model="searchQuery"
+          placeholder="Search blogs..."
+          container-class="max-w-[500px] w-full"
+        >
+          <template #prefix>
+            <Search class="h-5 w-5 text-muted-foreground ml-3" />
+          </template>
+        </Input>
+
+        <div class="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger :asChild="true">
+              <Button variant="outline" class="min-w-[120px]">
+                {{ statusFilter || 'All Status' }}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                v-for="status in statusOptions"
+                :key="status"
+                @click="statusFilter = status"
+              >
+                {{ status }}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button variant="outline" size="icon" @click="resetFilters" title="Clear filters">
+            <X class="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      <!-- Results summary -->
+      <div class="flex items-center justify-between text-sm text-muted-foreground">
+        <div>
+          {{ filteredPosts.length }} {{ filteredPosts.length === 1 ? 'result' : 'results' }}
+          <span v-if="searchQuery || statusFilter">
+            {{ searchQuery ? `for "${searchQuery}"` : '' }}
+            {{ searchQuery && statusFilter ? 'and' : '' }}
+            {{ statusFilter && statusFilter !== 'All' ? `with status "${statusFilter}"` : '' }}
+          </span>
+        </div>
+        <div
+          v-if="searchQuery || statusFilter"
+          role="button"
+          class="text-primary cursor-pointer"
+          @click="resetFilters"
+        >
+          Clear filters
+        </div>
+      </div>
+    </div>
+
+    <!-- No results message -->
+    <div v-if="filteredPosts.length === 0" class="text-center py-12">
+      <h3 class="text-lg font-semibold">No blog posts found</h3>
+      <p class="text-muted-foreground mt-2">
+        Try adjusting your search or filter to find what you're looking for
+      </p>
+      <Button variant="outline" @click="resetFilters" class="mt-4">Clear filters</Button>
+    </div>
+
+    <!-- Blog posts grid -->
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <Card
-        v-for="post in blogData.posts"
+        v-for="post in filteredPosts"
         :key="post.id"
         class="h-full flex flex-col relative group"
       >
