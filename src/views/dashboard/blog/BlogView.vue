@@ -16,6 +16,15 @@ import {
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { EllipsisVertical, Eye, Pencil, Trash2 } from 'lucide-vue-next'
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { toast } from 'vue-sonner'
 
 const blogData = ref({
   posts: [
@@ -127,20 +136,30 @@ const blogData = ref({
   ],
 })
 
-// Methods
-const handleStatusChange = (postId: string, status: string) => {
-  // Implementation of status change logic
-  const post = blogData.value.posts.find((p) => p.id === postId)
-  if (post) {
-    post.status = status
-  }
+const isOpenAlert = ref(false)
+const selectedPost = ref({
+  postId: '',
+  status: '',
+})
+
+const openAlert = (postId: string, status: string) => {
+  isOpenAlert.value = true
+  selectedPost.value = { postId, status }
 }
 
-const setPostToDelete = (postId: string) => {
-  // Implementation of delete post logic
-  if (confirm('Are you sure you want to delete this post?')) {
-    blogData.value.posts = blogData.value.posts.filter((p) => p.id !== postId)
+// Methods
+const handleStatusChange = () => {
+  // Implementation of status change logic
+  const post = blogData.value.posts.find((p) => p.id === selectedPost.value.postId)
+  if (post && selectedPost.value.status !== 'DELETED') {
+    post.status = selectedPost.value.status
+    toast.success('Post status updated successfully')
   }
+  if (selectedPost.value.status === 'DELETED') {
+    blogData.value.posts = blogData.value.posts.filter((p) => p.id !== selectedPost.value.postId)
+    toast.success('Post deleted successfully')
+  }
+  isOpenAlert.value = false
 }
 </script>
 
@@ -177,26 +196,26 @@ const setPostToDelete = (postId: string) => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                @click="handleStatusChange(post.id, 'PUBLISHED')"
+                @click="openAlert(post.id, 'PUBLISHED')"
                 :disabled="post.status === 'PUBLISHED'"
               >
                 Mark as Published
               </DropdownMenuItem>
               <DropdownMenuItem
-                @click="handleStatusChange(post.id, 'DRAFT')"
+                @click="openAlert(post.id, 'DRAFT')"
                 :disabled="post.status === 'DRAFT'"
               >
                 Mark as Draft
               </DropdownMenuItem>
               <DropdownMenuItem
-                @click="handleStatusChange(post.id, 'ARCHIVED')"
+                @click="openAlert(post.id, 'ARCHIVED')"
                 :disabled="post.status === 'ARCHIVED'"
               >
                 Archive
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                @click="setPostToDelete(post.id)"
+                @click="openAlert(post.id, 'DELETED')"
                 class="text-destructive focus:text-destructive"
               >
                 <Trash2 class="mr-2 h-4 w-4" />
@@ -263,5 +282,29 @@ const setPostToDelete = (postId: string) => {
         </Link>
       </Card>
     </div>
+    <AlertDialog :open="isOpenAlert">
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone.
+            {{
+              selectedPost.status === 'DELETED'
+                ? 'This will permanently delete your account and remove your data from our servers.'
+                : 'Are you sure you want to change the status of this post?'
+            }}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <Button variant="outline" @click="isOpenAlert = false">Cancel</Button>
+          <Button
+            :variant="selectedPost.status === 'DELETED' ? 'destructive' : 'default'"
+            @click="handleStatusChange"
+          >
+            Continue
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   </div>
 </template>
