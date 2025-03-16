@@ -54,7 +54,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _, next) => {
-  document.title = `MicroHash - ${capitalize(to.name as string)}`
+  document.title = `HashMicro - ${capitalize(to.name as string)}`
   next()
 })
 
