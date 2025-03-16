@@ -89,7 +89,9 @@ function deleteBlog() {
   <div class="max-w-4xl mx-auto">
     <div class="flex items-center justify-between gap-2 mb-4">
       <div class="flex items-center gap-4">
-        <Button variant="ghost" @click="goBack"> <ArrowLeft class="h-4 w-4 mr-2" /> Back </Button>
+        <Button variant="ghost" size="sm" @click="goBack">
+          <ArrowLeft class="h-4 w-4 mr-2" /> Back
+        </Button>
         <h1 class="font-bold text-2xl">Edit Blog</h1>
       </div>
       <div class="flex gap-2">

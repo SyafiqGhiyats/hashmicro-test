@@ -18,7 +18,7 @@ import { ref, useTemplateRef } from 'vue'
 import { defaultContent } from '@/lib/default-content'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import { Trash2Icon } from 'lucide-vue-next'
+import { ArrowLeft, Trash2Icon } from 'lucide-vue-next'
 
 const tags = ref([])
 const imageRef = useTemplateRef('imageRef')
@@ -28,6 +28,10 @@ const router = useRouter()
 
 function saveBlog() {
   toast.success('Blog saved successfully')
+  router.push('/blog')
+}
+
+function goBack() {
   router.push('/blog')
 }
 
@@ -47,7 +51,12 @@ function clearBannerImage() {
 <template>
   <div class="max-w-4xl mx-auto">
     <div class="flex items-center justify-between gap-2">
-      <h1 class="font-bold text-2xl my-4">Create Blog</h1>
+      <div class="flex items-center gap-4">
+        <Button variant="ghost" @click="goBack" size="sm">
+          <ArrowLeft class="h-4 w-4 mr-2" /> Back
+        </Button>
+        <h1 class="font-bold text-2xl my-4">Create Blog</h1>
+      </div>
       <Button class="w-[200px]" @click="saveBlog"> Save </Button>
     </div>
     <form @submit.prevent="" class="space-y-4">

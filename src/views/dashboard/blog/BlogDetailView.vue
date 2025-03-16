@@ -60,7 +60,7 @@ const goToEdit = () => {
 <template>
   <div class="max-w-4xl mx-auto">
     <div class="flex items-center justify-between mb-6">
-      <Button variant="ghost" @click="goBack" class="gap-2">
+      <Button variant="ghost" @click="goBack" size="sm" class="gap-2">
         <ArrowLeft class="h-4 w-4" /> Back to Blog List
       </Button>
       <Button @click="goToEdit" v-if="post" class="gap-2">
