@@ -1,6 +1,6 @@
 # hash-micro-test
 
-This template should help get you started developing with Vue 3 in Vite.
+Preview: https://hashmicro-test-nine.vercel.app/auth/login
 
 ## Recommended IDE Setup
 
